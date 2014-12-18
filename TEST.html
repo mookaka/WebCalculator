@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="la">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, innitial-scale=1" />
+<meta name="description" content="This is very easy caculator" />
+<style type="text/css">
+    *{
+        margin:0px;
+        padding:0px;
+        font:normal 100% Lucida Sans Unicode;
+    }
+    
+    body{
+        background-color: #5F6858;
+    }
+    
+    #wrapper{
+        position:relative;
+        margin:10% auto;
+        width:300px;
+        background-color: #8E9B97;
+        box-shadow:0px 13px 15px 2px #5C472F;
+        padding-top: 15px;
+        border-radius: 8px;
+    }
+    
+    #screen{
+        position:relative;
+        width:240px;
+        height:60px;
+        line-height: 60px;
+        font-weight: bold;
+        font-size: 45px;
+        font-family: Baby Face,Robot;
+        border-style: none;
+        text-align: right;
+        background-color: #DDD9DA;
+        opacity:0.8;
+        border-radius: 8px;
+        margin:0px auto;
+        overflow: hidden;
+        z-index: 0;
+        transition: background-color .3s ease;
+    }
+    
+    #screen:target{
+        background-color: #5C472F;
+    }
+    
+    .getResult{
+        z-index: 0;
+        -webkit-animation:getResultEffect 0.8s ease-out ;
+        -moz-animation:getResultEffect 1s ease-out;
+        -o-animation:getResultEffect 1s ease-out;
+        -ms-animation:getResultEffect 1s ease-out;
+        animation: gerResultEffect 1s ease-out;
+    }
+    
+    @-webkit-keyframes getResultEffect{
+        0%{opacity:0;-webkit-transform:translateY(60px);}
+        100%{opacity:0.8;-webkit-transform:translateY(0px);}
+    }
+    
+    @-moz-keyframes getResultEffect{
+        0%{opacity:0;-moz-transform:translateY(30px);}
+        100%{opacity:0.8;-moz-transform:translateY(0px);}
+    }
+    
+    @-o-keyframes getResultEffect{
+        0%{opacity:0;-o-transform:translateY(30px);}
+        100%{opacity:0.8;-o-transform:translateY(0px);}
+    }
+    
+    @-ms-keyframes getResultEffect{
+        0%{opacity:0;-ms-transform:translateY(30px);}
+        100%{opaciy:0.8;-ms-transform:translateY(0px);}
+    }
+    
+    @keyframes getResultEffect{
+        0%{opacity:0;transform:translateY(30px);}
+        100%{opacity:0.8;transform:translateY(0px);}
+    }
+    
+      
+    #keyboards{
+        position:relative;
+        width:240px;
+        height:500px;
+        margin:10px auto;
+        padding:10px;
+        z-index: 1;
+    }
+  
+
+    .button{
+        z-index: 1;
+        width:60px;
+        height:60px;
+        line-height: 60px;
+        border-radius: 50px;
+        background-color: #515953;
+        font-weight: bold;
+        text-align: center;
+        color:#FCFDFC;
+        float:left;
+        margin:10px;
+        box-shadow: 0px 5px 15px #5C472F;
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -o-user-select:none;
+        user-select:none;
+        transition: background-color,box-shadow .2s ease;
+    }
+    
+    .button:active{
+        background-color: #8E9B97;
+        box-shadow: 0px 1px 10px #8E9B97;
+    }
+    
+    #buttonequal{
+        background-color: #6A6315;
+    }
+</style>
+<script type="text/javascript">
+    
+    
+window.onload=function()
+{
+    var var1 = "";
+    var var2 = "";
+    var operator = "";
+    var button = document.getElementsByClassName("button");
+    var screenContent = document.getElementById("screen");
+
+    for(var i=0; i<button.length; i++)
+    {
+        button[i].onclick = function()
+        {
+             if(this.innerText == "+" || this.innerText == "-" || this.firstChild.nodeValue == "×" || this.firstChild.nodeValue == "÷")
+            {
+                screenContent.className = "";
+                operator = this.innerText;
+                var2 = var1;
+                var1 = "";
+                screenContent.innerText = var2 + operator;
+            }
+
+            else if(this.innerText == "C")
+            {
+                screenContent.innerText = "0";
+                operator = "";
+                var2 = "";
+                var1 = "";
+            }
+            else if(this.innerText == "Del")
+            {
+                
+                if(var1 != "")
+                {
+                    var1 = var1.substring(0,var1.length-1);
+                    screenContent.innerText = var2 + operator + var1;
+                }
+                else if(operator != "")
+                {
+                    operator = "";
+                    screenContent.innerText = var2;
+                }
+                else if(var2 != "")
+                {
+                    var2 = var2.substring(0,var2.length-1);
+                    screenContent.innerText = var2;
+                }
+                else   
+                {
+                    screenContent.innerText = "";
+                }
+            }
+            else if(this.innerText == "=")
+            {
+               if(operator == "+")
+               {
+                   screenContent.innerText = (var2*1 + var1*1);
+                   var1 = screenContent.innerText;
+                   screenContent.className = "getResult";
+               }
+                else if(operator == "-")
+                {
+                    screenContent.innerText = (var2*1 - var1*1);
+                    var1 = screenContent.innerText;
+                    screenContent.className = "getResult";
+                }
+                else if(operator == "×")
+                {
+                    screenContent.innerText = (var2*1 * var1*1);
+                    var1 = screenContent.innerText;
+                    screenContent.className = "getResult";
+                }
+               else if(operator == "÷")
+                {
+                    screenContent.innerText = (var2*1 / var1*1);
+                    var1 = screenContent.innerText;
+                    screenContent.className = "getResult";
+                }
+                
+            }
+            else
+            {
+                var1 += this.innerText;
+                screenContent.innerHTML = var2 + operator + var1;
+            }
+            
+        }
+        
+    }
+    
+}
+
+</script>
+<title>My Little Caculator</title>
+</head>
+<body>
+<div id="wrapper">
+    <div id="screen">0</div>
+    <div id="keyboards">
+        
+    
+        <div class="button" id="button0">0</div>
+        <div class="button" id="buttondot">.</div>
+        <div class="button" id="buttonclear">C</div>   
+   
+        
+    
+        <div class="button" id="button1">1</div>
+        <div class="button" id="button2">2</div>
+        <div class="button" id="button3">3</div>  
+       
+        
+     
+         <div class="button" id="button4">4</div>
+        <div class="button" id="button5">5</div>
+        <div class="button" id="button6">6</div>  
+    
+     
+         <div class="button" id="button7">7</div>
+        <div class="button" id="button8">8</div>
+        <div class="button" id="button9">9</div>  
+  
+         <div class="button" id="buttonadd">+</div>
+        <div class="button" id="buttonsubtr">-</div>
+        <div class="button" id="buttondelete">Del</div>  
+        
+         <div class="button" id="buttonmultiple">&times;</div>
+        <div class="button" id="buttonsubtraction">&divide;</div>
+        <div class="button" id="buttonequal">=</div>  
+        
+    </div>
+    </div>    
+</body>
+</html>
